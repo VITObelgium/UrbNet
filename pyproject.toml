@@ -1,0 +1,103 @@
+[project]
+authors = [
+    { name = "Niels Souverijns", email = "niels.souverijns@vito.be" },
+    { name = "Hendrik Wouters", email = "hendrik.wouters@vito.be" },
+    { name = "Filip Schouwenaars", email = "filip.schouwenaars@vito.be" },
+]
+dependencies = ["imagecodecs>=2026.5.10"]
+description = "Neural network training scripts used for HHeatmap and vector-borne diseases projects"
+name = "urbnet"
+requires-python = ">= 3.12"
+version = "0.0.1"
+
+[tool.pixi.system-requirements]
+cuda = "11.8"
+
+[build-system]
+build-backend = "hatchling.build"
+requires      = ["hatchling"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["urbnet"]
+
+[tool.pixi.package.host-dependencies]
+hatchling = ">=1.27.0"
+
+[tool.pixi.dependencies]
+urbnet = { path = "." }
+ecmwf-opendata = ">=0.3.26,<0.4"
+geopandas = ">=1.1.3,<2"
+
+[tool.pixi.package.run-dependencies]
+dask          = ">=2025.7.0,<2026"
+h5netcdf      = ">=1.6.1,<2"
+loguru        = ">=0.7.3,<0.8"
+matplotlib    = ">=3.10.3,<4"
+mlflow        = ">=2.22.0,<3"
+netcdf4       = ">=1.7.2,<2"
+numcodecs     = ">=0.16.1,<0.17"
+numpy         = ">=2.1.3,<3"
+pandas        = ">=2.2.3,<3"
+pvlib         = ">=0.11.0,<0.14"
+python        = "3.12.*"
+python-dotenv = ">=1.1.0,<2"
+rasterio      = ">=1.4.3,<2"
+requests      = ">=2.32.3,<3"
+rioxarray     = ">=0.19.0,<0.20"
+scikit-learn  = ">=1.6.1,<2"
+tensorflow    = ">=2.18.0,<3"
+tqdm          = ">=4.67.1,<5"
+xarray        = ">=2025.4.0,<2026"
+zarr          = ">=3,<4"
+
+# # features and run-dependencies are not yet supported / or understood by Robin Houdmeyers
+# pytorch-gpu = "*"
+
+
+[tool.pixi.package.build.backend]
+name    = "pixi-build-python"
+version = "*"
+
+[tool.pixi.workspace]
+channels  = ["https://prefix.dev/pixi-build-backends", "https://prefix.dev/conda-forge"]
+platforms = ["linux-64"]
+preview   = ["pixi-build"]
+
+[tool.pixi.package]
+name = "urbnet"
+
+[tool.pixi.tasks]
+format = "pixi run ruff format ."
+
+
+[tool.pixi.feature.dev.dependencies]
+ipykernel  = "*"
+ipython    = "*"
+jupyter    = "*"
+nbformat   = "*"
+nbstripout = "*"
+plotly     = "*"
+pre-commit = "*"
+pytest     = "*"
+ruff       = "*"
+
+
+[tool.pixi.feature.gpu.system-requirements]
+cuda = "11.8"
+
+[tool.pixi.feature.gpu.dependencies]
+# cuda-version = "12.6.*"
+pytorch-gpu = "*"
+
+[tool.pixi.feature.cpu.dependencies]
+pytorch-cpu = "*"
+
+[tool.pixi.environments]
+cpu     = ["cpu", "dev"]
+default = ["gpu", "dev"]
+
+[tool.ruff]
+line-length = 101
+
+[tool.mypy]
+disable_error_code = ["import-untyped"]
